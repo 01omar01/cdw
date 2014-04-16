@@ -1,12 +1,14 @@
 {
-  "name": "application-name",
+  "name": "CDW",
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node app.js"
+    "start": "node server.js"
   },
   "dependencies": {
-    "express": "3.5.1",
-    "jade": "*"
+    "express": ">=0.0.0",
+    "jade": "*",
+    "socket.io": "0.9.16",
+    "mysql": "2.0.0"    
   }
 }

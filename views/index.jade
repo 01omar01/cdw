@@ -1,5 +1,28 @@
 extends layout
-
 block content
-  h1= title
-  p Welcome to #{title}
+ header  
+   div.logo-container   
+    span.logo DCW
+    span.menu
+     span.icon-list2
+     span.icon-arrow-down42
+   ul.menu-lista
+    li
+     spa.icon-house
+     a(href="/") Inicio
+    li.separador
+    li
+     span.icon-video
+     a Videotutoriales
+    li
+     span.icon-text
+     a Tutoriales
+    li
+     span.icon-docs
+     a Manuales
+   div.busqueda-principal
+    label
+     input(type="text" id="txt-busqueda-principal")
+     span.icon-search
+   div.iniciar_sesion 
+    a Login
