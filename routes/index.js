@@ -1,18 +1,18 @@
 
 var cdw = require('../models/cdw.js')
 var error = 'Se produjo un error, estamos trabajando para solucionarlo.';
-
+var title = "DCW";
 
 exports.index = function(req, res){
 	if(req.session.datos_usuario){
-		res.render('index', { title: 'DCW', data: req.session.datos_usuario});
+		res.render('index', { title: title, data: req.session.datos_usuario});
 	}else{
-		res.render('index', { title: 'DCW' });
+		res.render('index', { title: title });
 	}
 };
 exports.login = function(req,res){
 	validar_session(req, res);
-	res.render('login', { title: 'DCW'});
+	res.render('login', { title: title});
 };
 
 exports.iniciar_session = function(req, res){
@@ -26,19 +26,47 @@ exports.iniciar_session = function(req, res){
 			var data = resultado.results[0];			
 			if(data.length>0){
 				req.session.datos_usuario = {
-					id_usuario : data[0].id_usuario,
-					usuario    : data[0].usuario,
-					avatar     : data[0].avatar,
-					nombre     : data[0].nombre_usuario
+					id_usuario 		: data[0].id_usuario,
+					usuario    		: data[0].usuario,
+					avatar     		: data[0].avatar,
+					nombre_usuario	: data[0].nombre_usuario
 				};	
 				res.redirect('/');
 			}else{
-				res.render('login', { title: 'DCW', error: 'Usuario o Contraseña incorrectos' });
+				res.render('login', { title: title, error: 'Usuario o Contraseña incorrectos' });
 			}			
 		}else{
-			res.render('login', { title: 'DCW', error: error });
+			res.render('login', { title: title, error: error });
 		}
 	});
+};
+
+exports.edit_perfil = function(req, res){
+	if(req.session.datos_usuario){
+		res.render('index', { title: title, data: req.session.datos_usuario, edit_perfil: true});
+	}else{
+		res.render('login', { title: title, error: 'Debes iniciar sesión para continuar' });
+	}
+};
+exports.edit_avatar = function(req, res){
+	if(req.session.datos_usuario){
+		var datos = {
+			id_usuario: req.session.datos_usuario.id_usuario,
+			avatar:  req.body['txt-avatar-perfil']
+		};
+		console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+		console.log(datos);
+		cdw.edit_avatar(datos,function(resultado){
+			if(resultado.estado == '1'){
+				req.session.datos_usuario.avatar = req.body['txt-avatar-perfil'];
+				res.redirect('/');
+			}else{
+				res.render('index', { title: title, data: req.session.datos_usuario, error: error});
+			}
+		});	
+	}else{
+		res.redirect('/login');
+	}
 };
 
 
@@ -64,9 +92,9 @@ exports.registro = function(req, res){
 	};
 	cdw.registro(datos,function(resultado){
 		if(resultado.estado=='1'){
-			res.render('index', { title: 'DCW'});
+			res.render('index', { title: title});
 		}else{
-			res.render('login', { title: 'DCW', error: error });
+			res.render('login', { title: title, error: error });
 		}
 	});
 };
@@ -79,5 +107,10 @@ exports.logout = function(req, res){
 function validar_session(req, res){
 	if(req.session.datos_usuario){
 		res.redirect('/');
+	}
+}
+function redirect_login(req, res){
+	if(req.session.datos_usuario){
+		res.redirect('/login');
 	}
 }

@@ -1,3 +1,4 @@
+*:focus {outline: none;}
 body{
 	background: #f1f1f1;
 	font-size: 1em;
@@ -14,6 +15,16 @@ header{
 a{
 	color: #000;
 	text-decoration: none;
+}
+input{
+	border-radius:4px 4px 4px 4px;
+	border:1px solid #bfbfbf;
+	box-shadow:1px 1px 5px #eee inset;
+	color:#5e5e5e;
+	line-height:30px;
+	margin:.2em;
+	padding: .5em;
+	width:99.5%;
 }
 .boton{
 	-moz-border-radius:28px;
@@ -76,6 +87,59 @@ a{
 .display-none{
 	display: none;
 }
+.editar_pefil{
+	background: #fff;	
+	margin: 0 auto;
+	margin-top: .8em;
+	padding: .5em;
+	text-align: center;
+	width: 80%;
+	-moz-box-shadow: 10px 10px 5px #888;
+	-webkit-box-shadow: 10px 10px 5px #888;
+	border-radius: 5px;
+	box-shadow: 10px 10px 5px #888;
+}
+.editar_pefil article form button{
+	margin-left: .8em;
+	margin-top: .8em;
+}
+.editar_pefil article form img{
+	background: #f1f1f1;
+	border-radius: 100px;
+	height: 182px;
+	width: 182px;
+}
+.error-index{
+	background-color:#000;
+	filter:alpha(opacity=75);
+	height:100%;
+	left:0px;
+	opacity: .75;
+	position:fixed;
+	top:0px;	
+	width:100%;
+	z-index:4;
+}
+.error-index div{
+	background: red;
+	border-radius: 5px;
+	color: #fff;
+	margin: 0 auto;
+	margin-top: 300px;	
+	padding: .7em;
+	position: relative;
+	text-align: center;
+	width: 70%;
+}
+.error-index div span{
+	position: absolute;	
+	right: 3px;
+	top: 1.5px;
+}
+.error-index div span:hover{
+	color:#0ad;
+	cursor: pointer;
+}
 .iniciar_sesion{
 	margin-top: 14px;
 	text-align: center;
@@ -85,7 +149,7 @@ a{
 	font-size: 30px;
 	left: 4px;
 	position: absolute;
-	top: 50px;
+	top: 57px;
 }
 .menu{
 	border: 1px solid transparent;
@@ -109,7 +173,7 @@ a{
 	border-bottom:  1px solid #ccc;
 	box-shadow: inset 0 1px 2px #eee;	
 	position: absolute;
-	top: 103.5px;
+	top: 81.5px;
 	width: 150px;
 	z-index: 1;
 }
@@ -145,9 +209,15 @@ a{
 	vertical-align: middle;
 	margin-right: .2em;
 }
+.user a:hover{
+	color: red;
+	cursor: pointer;
+}
 .user img{
+	background: #f1f1f1;
+	border-radius: 50px;
+	height: 50px;
 	width: 50px;
-	border-radius: 50px;	
 }
 @media screen and (min-width: 500px){
 	header div{
@@ -157,14 +227,28 @@ a{
 	.busqueda-principal{
 		margin-left: 38px;
 		width: 60%;
-	}	
+	}
+	.editar_pefil{
+		width: 90%;
+	}
+	.editar_pefil article{
+		display: inline-block;
+		vertical-align: bottom;
+		width: 400px;
+	}
+	.editar_pefil article:nth-child(2){
+		margin-left: .8em;
+	}
+	.editar_pefil article form button:nth-child(4){
+		margin-left: .8em;		
+	}
 	.logo-container{		
 		margin-left: .3em;
 		top: 19px;
 		width: 100px;
 	}
 	.menu-lista{
-		top: 52.5px;
+		top: 47.5px;
 	}
 	.busqueda-principal label span {		
 		right: inherit;

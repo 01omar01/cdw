@@ -47,3 +47,16 @@ exports.validar_disponibilidad = function(datos, callback){
 			}
 		});
 };
+
+exports.edit_avatar = function(datos, callback){
+	client.query(' call spseg_mae_usuarios_edit_avatar (?,?)',[datos.id_usuario, datos.avatar],
+		function(err, results, fiels){
+			if(err){
+				callback({estado:'0',err: err});
+				return;
+			}else{
+				callback({estado:'1',results: results});
+				return;
+			}			
+		});
+};

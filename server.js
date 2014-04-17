@@ -35,6 +35,8 @@ app.get('/login', routes.login);
 app.post('/iniciar_session', routes.iniciar_session);
 app.post('/registro',routes.registro)
 app.get('/logout', routes.logout);
+app.get('/edit_perfil', routes.edit_perfil);
+app.post('/edit_avatar', routes.edit_avatar);
 
 server = http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
@@ -43,6 +45,13 @@ server = http.createServer(app).listen(app.get('port'), function(){
 var socket_io = io.listen(server);
 
 socket_io.sockets.on('connection',function(socket){
+
+  socket.on('generar_canal',function(datos){
+    socket.datos_usuario = datos;    
+    socket.join(socket.datos_usuario.id_usuario);
+    console.log(socket.datos_usuario);
+  });
+
 
   socket.on('validar_disponibilidad', function(usuario){    
     routes.validar_disponibilidad_usuario(usuario,function(resultado){

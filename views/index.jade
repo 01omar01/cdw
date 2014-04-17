@@ -13,9 +13,9 @@ block content
             div.user
                 a
                     spa.icon-bell
-                a #{data.usuario}
-                a 
-                    img(src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn2/t1.0-1/c9.9.111.111/s50x50/1045248_10201550652195117_1560511763_s.jpg")
+                a(title="Editar Perfil", href="/edit_perfil") #{data.usuario}
+                a(href="/edit_perfil")
+                    img(src="#{data.avatar}", title="Editar Perfil", href="/edit_perfil")
         else
             div.iniciar_sesion
                 a.boton(href='/login') Login
@@ -38,9 +38,31 @@ block content
                 li.separador
                 li
                     span.icon-cross3
-                    a(href="/logout") Salir
+                    a(href="/logout") Salir            
 
     if(data)
+        if(edit_perfil)
+            section#editar_perfil.editar_pefil
+                article
+                    form(id="frm-edit-avatar", name="frm-edit-avatar", action="/edit_avatar", method="post")
+                        img(src="#{data.avatar}")
+                        input(type="url", id="txt-avatar-perfil", name="txt-avatar-perfil", required, placeholder="Url del Avatar")
+                        button.boton Cambiar Avatar
+                        button.boton(type="button", id="btn-vista-previa-avatar") Vista Previa
+
+                article Cambiar Contraseña
+                    form(id="frm-edit-perfil", name="frm-edit-perfil")
+                        input(type="password", id="txt-pass-actual-perfil", name="txt-pass-actual-perfil", pattern="[a-zA-Z0-9]{5,}", title="Minimo de 5 Caracteres", required, placeholder="Contraseña Actual")
+                        input(type="password", id="txt-nueva-pass-perfil", name="txt-nueva-pass-perfil", pattern="[a-zA-Z0-9]{5,}", title="Minimo de 5 Caracteres", required, placeholder="Contraseña Nueva")
+                        input(type="password", id="txt-conf-nueva-pass-perfil", name="txt-conf-nueva-pass-perfil", pattern="[a-zA-Z0-9]{5,}", title="Minimo de 5 Caracteres", required, placeholder="Confirmar Contraseña")
+                        button.boton(type="button") Cambiar Contraseña
+                div#msj_edit_perfil.msj_edit_perfil
+
+    if(error)
+        section.error-index#error
+            div #{error}
+                span.icon-cross#close-error
+
         script(type="text/javascript")
             | var socket = io.connect();
             | datos = {id_usuario: '#{data.id_usuario}',avatar: '#{data.avatar}', usuario: '#{data.usuario}', nombre_usuario: '#{data.nombre_usuario}' }
