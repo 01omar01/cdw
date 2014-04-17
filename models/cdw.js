@@ -9,3 +9,41 @@ var client = mysql.createConnection({
 });
 
 client.query("USE cdw");
+
+exports.login = function(datos, callback){
+	client.query(' call spseg_mae_usuarios_login (?,?)',[datos.usuario, datos.pass],
+		function(err, results, fiels){			
+			if(err){
+				callback({estado:'0',err: err});
+				return;
+			}else{
+				callback({estado:'1',results: results});
+				return;
+			}
+		});
+};
+
+exports.registro = function(datos, callback){
+	client.query(' call spseg_mae_usuarios_registro (?,?,?,?)',[datos.usuario, datos.nombre, datos.email, datos.pass],
+		function(err, results, fiels){			
+			if(err){
+				callback({estado:'0',err: err});
+				return;
+			}else{
+				callback({estado:'1',results: results});
+				return;
+			}
+		});
+};
+exports.validar_disponibilidad = function(datos, callback){
+	client.query(' call spseg_mae_usuarios_disponibilidad (?)',[datos.usuario],
+		function(err, results, fiels){			
+			if(err){
+				callback({estado:'0',err: err});
+				return;
+			}else{
+				callback({estado:'1',results: results});
+				return;
+			}
+		});
+};

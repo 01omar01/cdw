@@ -1,0 +1,67 @@
+.login{
+	padding-top: 25%;
+	position: absolute;
+	text-align: center;
+	top: 0;	
+	width: 100%;	
+}
+
+.login form{
+	margin: 0 auto;
+	text-align: center;
+	width: 80%;
+}
+.login form button{
+	margin-top: .5em;
+	margin-left: .5em;
+	width: 118px;
+}
+input{
+	border-radius:4px 4px 4px 4px;
+	border:1px solid #bfbfbf;
+	box-shadow:1px 1px 5px #eee inset;
+	color:#5e5e5e;
+	line-height:30px;
+	margin:.2em;
+	padding: .5em;
+	width:99.5%;
+}
+*:focus {outline: none;}
+canvas{	
+	filter:alpha(opacity=75);
+	height:100%;
+	left:0px;
+	position:fixed;
+	top:0px;
+	width:100%;
+	
+}
+.display-none{
+	display: none;
+}
+.display-block{
+	display: block;
+}
+.error{
+	background: #fff;
+	border-radius: 5px;
+	padding: .6em;	
+}
+.wrap{
+	background: #fff;
+	border-radius: 5px;
+	display: none;
+}
+@media screen and (min-width: 500px){
+	.login button{
+		float: left;
+	}	
+	.login form{
+		margin: 0 auto;
+		width: 50%;
+	}	
+	.login form button{
+		float: right;
+		margin-left: .4em;
+	}	
+}

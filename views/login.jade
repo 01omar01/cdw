@@ -1,0 +1,23 @@
+extends layout
+block content
+	link(rel='stylesheet', href='/css/login.css')
+	canvas(id="c", width="", height="")
+	div.login
+		form
+			if(error)
+				section.error #{error}
+			section.wrap
+			button.boton(type="button", id="btn-volver" ) Volver
+		form(name="frm-login", id="frm-login", action="/iniciar_session", method="post")
+			input(type="text" id="txt-user-login" name="txt-user-login" placeholder="Usuario", required, autocomplete="off" )
+			input(type="password" id="txt-pass-login" name="txt-pass-login" placeholder="Contraseña", required, autocomplete="off")			
+			button.boton(type="button", id="btn-registrarme") Registrarme
+			button.boton Ingresar
+		form.display-none(name="frm-registro", id="frm-registro", action="/registro", method="post")
+			input(type="text", id="txt-usuario-registro", name="txt-usuario-registro", pattern="[a-zA-Z0-9]{5,}", title="Minimo de 5 Caracteres", required, placeholder="Usuario" , autocomplete="off")
+			input(type="text", id="txt-nombre-registro", name="txt-nombre-registro", pattern="[a-z A-Z]{3,}", required, placeholder="Nombre", autocomplete="off")
+			input(type="email", id="txt-email-registro", name="txt-email-registro", required, placeholder="Email", autocomplete="off")
+			input(type="password", id="txt-pass-registro", name="txt-pass-registro",  pattern=".{5,}" , required, placeholder="Contraseña")
+			button.boton(type="button", id="btn-cancelar-registro") Cancelar
+			button.boton(id="btn-enviar-registro") Registrarme
+	script(src="/js/login.js", type="text/javascript")

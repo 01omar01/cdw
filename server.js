@@ -31,9 +31,26 @@ if ('development' == app.get('env')) {
 }
 
 app.get('/', routes.index);
+app.get('/login', routes.login);
+app.post('/iniciar_session', routes.iniciar_session);
+app.post('/registro',routes.registro)
 
 server = http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
 
 var socket_io = io.listen(server);
+
+socket_io.sockets.on('connection',function(socket){
+
+  socket.on('validar_disponibilidad', function(usuario){    
+    routes.validar_disponibilidad_usuario(usuario,function(resultado){
+      if(resultado.resultado.estado=='1'){
+        socket.emit('validar_disponibilidad',{ estado: '1' });
+      }else{
+        socket.emit('validar_disponibilidad', {estado: '0', msj: resultado.resultado.msj })
+      }
+    });
+  });
+
+});

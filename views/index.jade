@@ -1,28 +1,32 @@
 extends layout
 block content
- header  
-   div.logo-container   
-    span.logo DCW
-    span.menu
-     span.icon-list2
-     span.icon-arrow-down42
-   ul.menu-lista
-    li
-     spa.icon-house
-     a(href="/") Inicio
-    li.separador
-    li
-     span.icon-video
-     a Videotutoriales
-    li
-     span.icon-text
-     a Tutoriales
-    li
-     span.icon-docs
-     a Manuales
-   div.busqueda-principal
-    label
-     input(type="text" id="txt-busqueda-principal")
-     span.icon-search
-   div.iniciar_sesion 
-    a Login
+    header  
+        div.logo-container 
+            span.menu#menu(title="Menu")
+                span.icon-list2
+                span.icon-arrow-down42 
+        div.busqueda-principal
+            label
+                input(type="text" id="txt-busqueda-principal")
+                span.icon-search
+        div.iniciar_sesion
+            a.boton(href='/login') Login
+        ul.menu-lista.display-none
+            li
+                spa.icon-house
+                a(href="/") Inicio
+            li.separador
+            li
+                span.icon-video
+                a Videotutoriales
+            li
+                span.icon-text
+                a Tutoriales
+            li
+                span.icon-docs
+                a Manuales
+    if(data)
+        script(type="text/javascript")
+            | var socket = io.connect();
+            | datos = {id_usuario: '#{data[0].id_usuario}',avatar: '#{data[0].avatar}', usuario: '#{data[0].usuario}', nombre_usuario: '#{data[0].nombre_usuario}' }
+            | socket.emit('generar_canal', datos);
