@@ -34,6 +34,7 @@ app.get('/', routes.index);
 app.get('/login', routes.login);
 app.post('/iniciar_session', routes.iniciar_session);
 app.post('/registro',routes.registro)
+app.get('/logout', routes.logout);
 
 server = http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

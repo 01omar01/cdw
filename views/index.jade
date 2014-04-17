@@ -9,8 +9,17 @@ block content
             label
                 input(type="text" id="txt-busqueda-principal")
                 span.icon-search
-        div.iniciar_sesion
-            a.boton(href='/login') Login
+        if(data)
+            div.user
+                a
+                    spa.icon-bell
+                a #{data.usuario}
+                a 
+                    img(src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn2/t1.0-1/c9.9.111.111/s50x50/1045248_10201550652195117_1560511763_s.jpg")
+        else
+            div.iniciar_sesion
+                a.boton(href='/login') Login
+
         ul.menu-lista.display-none
             li
                 spa.icon-house
@@ -25,8 +34,14 @@ block content
             li
                 span.icon-docs
                 a Manuales
+            if(data)
+                li.separador
+                li
+                    span.icon-cross3
+                    a(href="/logout") Salir
+
     if(data)
         script(type="text/javascript")
             | var socket = io.connect();
-            | datos = {id_usuario: '#{data[0].id_usuario}',avatar: '#{data[0].avatar}', usuario: '#{data[0].usuario}', nombre_usuario: '#{data[0].nombre_usuario}' }
+            | datos = {id_usuario: '#{data.id_usuario}',avatar: '#{data.avatar}', usuario: '#{data.usuario}', nombre_usuario: '#{data.nombre_usuario}' }
             | socket.emit('generar_canal', datos);

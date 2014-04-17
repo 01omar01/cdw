@@ -4,13 +4,19 @@ var error = 'Se produjo un error, estamos trabajando para solucionarlo.';
 
 
 exports.index = function(req, res){
-  res.render('index', { title: 'DCW' });
+	if(req.session.datos_usuario){
+		res.render('index', { title: 'DCW', data: req.session.datos_usuario});
+	}else{
+		res.render('index', { title: 'DCW' });
+	}
 };
 exports.login = function(req,res){
+	validar_session(req, res);
 	res.render('login', { title: 'DCW'});
 };
 
 exports.iniciar_session = function(req, res){
+	validar_session(req, res);
 	var datos = {
 		usuario: req.body['txt-user-login'],
 		pass  : req.body['txt-pass-login']
@@ -18,8 +24,14 @@ exports.iniciar_session = function(req, res){
 	cdw.login(datos,function(resultado){
 		if(resultado.estado=='1'){
 			var data = resultado.results[0];			
-			if(data.length>0){				
-				res.render('index', { title: 'DCW', data: data});
+			if(data.length>0){
+				req.session.datos_usuario = {
+					id_usuario : data[0].id_usuario,
+					usuario    : data[0].usuario,
+					avatar     : data[0].avatar,
+					nombre     : data[0].nombre_usuario
+				};	
+				res.redirect('/');
 			}else{
 				res.render('login', { title: 'DCW', error: 'Usuario o Contraseña incorrectos' });
 			}			
@@ -43,6 +55,7 @@ exports.validar_disponibilidad_usuario = function(usuario, callback){
 	});	
 };
 exports.registro = function(req, res){
+	validar_session(req, res);
 	var datos = {
 		usuario: req.body['txt-usuario-registro'],
 		nombre : req.body['txt-nombre-registro'],
@@ -57,3 +70,14 @@ exports.registro = function(req, res){
 		}
 	});
 };
+
+exports.logout = function(req, res){
+	req.session.destroy();	
+	res.redirect('/');
+};
+
+function validar_session(req, res){
+	if(req.session.datos_usuario){
+		res.redirect('/');
+	}
+}
