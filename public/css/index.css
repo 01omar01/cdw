@@ -73,9 +73,11 @@ input{
 }
 .busqueda-principal label input[type='text']{
 	background: transparent;
-	border: 0;http://localhost:3000/login
+	border: 0;
+	box-shadow: 0px 0px 0px 0px transparent;
 	display: inline-block;
 	font-size: 16px;
+	line-height: normal;
 	margin: 0;
 	outline: none;
 	padding: 2px 6px;

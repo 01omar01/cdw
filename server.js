@@ -47,9 +47,8 @@ var socket_io = io.listen(server);
 socket_io.sockets.on('connection',function(socket){
 
   socket.on('generar_canal',function(datos){
-    socket.datos_usuario = datos;    
-    socket.join(socket.datos_usuario.id_usuario);
-    console.log(socket.datos_usuario);
+    socket.datos_usuario = datos;
+    socket.join(socket.datos_usuario.id_usuario);    
   });
 
 
@@ -59,6 +58,17 @@ socket_io.sockets.on('connection',function(socket){
         socket.emit('validar_disponibilidad',{ estado: '1' });
       }else{
         socket.emit('validar_disponibilidad', {estado: '0', msj: resultado.resultado.msj })
+      }
+    });
+  });
+
+  socket.on('edit_pass',function(datos){    
+    datos.id_usuario = socket.datos_usuario.id_usuario;
+    routes.edit_pass(datos, function(resultado){
+      if(resultado.resultado.estado=='1'){
+        socket.emit('edit_pass', { estado: '1', msj: resultado.resultado.msj });
+      }else{
+        socket.emit('error', {error: resultado.resultado.msj});
       }
     });
   });

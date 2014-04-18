@@ -55,15 +55,16 @@ block content
                         input(type="password", id="txt-pass-actual-perfil", name="txt-pass-actual-perfil", pattern="[a-zA-Z0-9]{5,}", title="Minimo de 5 Caracteres", required, placeholder="Contraseña Actual")
                         input(type="password", id="txt-nueva-pass-perfil", name="txt-nueva-pass-perfil", pattern="[a-zA-Z0-9]{5,}", title="Minimo de 5 Caracteres", required, placeholder="Contraseña Nueva")
                         input(type="password", id="txt-conf-nueva-pass-perfil", name="txt-conf-nueva-pass-perfil", pattern="[a-zA-Z0-9]{5,}", title="Minimo de 5 Caracteres", required, placeholder="Confirmar Contraseña")
-                        button.boton(type="button") Cambiar Contraseña
+                        button.boton(type="button", id="btn-cambiar-contrasena") Cambiar Contraseña
                 div#msj_edit_perfil.msj_edit_perfil
-
-    if(error)
-        section.error-index#error
-            div #{error}
-                span.icon-cross#close-error
-
         script(type="text/javascript")
             | var socket = io.connect();
             | datos = {id_usuario: '#{data.id_usuario}',avatar: '#{data.avatar}', usuario: '#{data.usuario}', nombre_usuario: '#{data.nombre_usuario}' }
             | socket.emit('generar_canal', datos);
+    if(error)
+        section.error-index#error
+            div #{error}
+                span.icon-cross#close-error
+    section.error-index.display-none#error_socket
+        div
+            span.icon-cross#close-error

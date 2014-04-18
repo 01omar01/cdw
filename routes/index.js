@@ -11,7 +11,7 @@ exports.index = function(req, res){
 	}
 };
 exports.login = function(req,res){
-	validar_session(req, res);
+	validar_session(req, res);	
 	res.render('login', { title: title});
 };
 
@@ -54,8 +54,6 @@ exports.edit_avatar = function(req, res){
 			id_usuario: req.session.datos_usuario.id_usuario,
 			avatar:  req.body['txt-avatar-perfil']
 		};
-		console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
-		console.log(datos);
 		cdw.edit_avatar(datos,function(resultado){
 			if(resultado.estado == '1'){
 				req.session.datos_usuario.avatar = req.body['txt-avatar-perfil'];
@@ -69,6 +67,17 @@ exports.edit_avatar = function(req, res){
 	}
 };
 
+exports.edit_pass = function(datos, callback){
+	cdw.cambiar_contrasena(datos, function(resultado){		
+		if(resultado.estado=='1'){
+			callback({ estado: '1', resultado: resultado.results[0][0] });
+			return;
+		}else{
+			callback({ estado:'0', error: error});
+			return;
+		}
+	});
+};
 
 exports.validar_disponibilidad_usuario = function(usuario, callback){
 	var datos = { usuario: usuario };

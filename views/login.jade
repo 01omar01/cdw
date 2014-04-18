@@ -10,7 +10,7 @@ block content
 			button.boton(type="button", id="btn-volver" ) Volver
 		form(name="frm-login", id="frm-login", action="/iniciar_session", method="post")
 			input(type="text" id="txt-user-login" name="txt-user-login" placeholder="Usuario", required, autocomplete="off" )
-			input(type="password" id="txt-pass-login" name="txt-pass-login" placeholder="Contraseña", required, autocomplete="off")			
+			input(type="password" id="txt-pass-login" name="txt-pass-login" placeholder="Contraseña", required, autocomplete="off")
 			button.boton(type="button", id="btn-registrarme") Registrarme
 			button.boton Ingresar
 		form.display-none(name="frm-registro", id="frm-registro", action="/registro", method="post")

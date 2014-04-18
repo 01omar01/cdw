@@ -60,3 +60,16 @@ exports.edit_avatar = function(datos, callback){
 			}			
 		});
 };
+
+exports.cambiar_contrasena = function(datos, callback){
+	client.query(' call spseg_mae_usuarios_edit_pass (?,?,?)',[datos.id_usuario, datos.pass_actual, datos.pass_nueva],
+		function(err, results, fiels){
+			if(err){
+				callback({estado:'0',err: err});
+				return;
+			}else{
+				callback({estado:'1',results: results});
+				return;
+			}			
+		});
+};
