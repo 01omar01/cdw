@@ -113,3 +113,15 @@ exports.videotutoriales_listar_activos = function(callback){
 			}	
 	});
 };
+exports.videotutoriales_getbyid = function(datos, callback){
+	client.query(' call spm_videotutoriales_mov_videos_getbyid (?)',[datos.id_videotutorial],
+		function(err, results, fiels){
+			if(err){
+				callback({estado:'0',err: err});
+				return;
+			}else{
+				callback({estado:'1',results: results});
+				return;
+			}
+		});
+};

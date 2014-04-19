@@ -39,6 +39,7 @@ app.get('/edit_perfil', routes.edit_perfil);
 app.post('/edit_avatar', routes.edit_avatar);
 app.get('/tutoriales', routes.tutoriales);
 app.get('/videotutoriales', routes.videotutoriales);
+app.get('/videotutorial/getbyid', routes.videotutorialesgetbyid);
 
 
 server = http.createServer(app).listen(app.get('port'), function(){

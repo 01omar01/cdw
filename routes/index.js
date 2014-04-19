@@ -156,7 +156,26 @@ exports.videotutoriales = function(req, res){
 	});
 };
 
-
+exports.videotutorialesgetbyid = function(req, res){
+	var datos = {
+		id_videotutorial: req.param("id")
+	};
+	cdw.videotutoriales_getbyid(datos, function(resultado){
+		if(resultado.estado=='1'){
+			if(req.session.datos_usuario){
+				res.render('index', { title: title, data: req.session.datos_usuario, videotutorial: resultado.results[0] });
+			}else{
+				res.render('index', { title: title, videotutorial: resultado.results[0] });
+			}
+		}else{
+			if(req.session.datos_usuario){
+				res.render('index', { title: title, data: req.session.datos_usuario, error: error });
+			}else{
+				res.render('index', { title: title, error: error });
+			}			
+		}
+	});
+}
 
 
 
