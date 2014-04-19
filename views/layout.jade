@@ -11,4 +11,25 @@ html(lan='es')
     script(src='/vendor/jquery_v1.11.0.js', type='text/javascript')
 body
   block content  
+  footer
+    ul
+      li
+          spa.icon-house
+          a(href="/") Inicio
+      li
+          span.icon-video
+          a(href="/videotutoriales") Videotutoriales
+      li
+          span.icon-text
+          a(href="/tutoriales") Tutoriales
+      li
+          span.icon-docs
+          a Guias
+      if(data)
+          li
+              span.icon-cross3
+              a(href="/logout") Salir    
+    p CDW Comunidad de Desarrolladores Web, 
+      strong Haciendo Un Mejor Mundo
+
   script(src="/js/index.js", type="text/javascript")

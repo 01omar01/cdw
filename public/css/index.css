@@ -2,6 +2,7 @@
 body{
 	background: #f1f1f1;
 	font-size: 1em;
+	font: verdana,helvetica,arial,sans-serif;
 	margin: 0;
 	padding: 0;
 }
@@ -15,6 +16,46 @@ header{
 a{
 	color: #000;
 	text-decoration: none;
+}
+footer {
+	background: #fff;
+	border-top: 1px solid #ccc;
+	bottom:0;
+	clear:both;
+	height:50px;
+	left:0;
+	margin-top:10px;
+	padding:5px 5px;
+	position: fixed;
+	text-align:center;
+	width:100%;
+}
+footer ul{
+	padding: 0;
+	margin: 0;
+}
+footer ul li{
+	display: inline-block;	
+}
+footer ul li:hover{
+	color: red;
+}
+footer ul li:hover > a{
+	color: red;
+	cursor: pointer;
+	text-decoration: underline;
+}
+footer ul li a{
+	color: #000;
+	padding: .5em;
+	text-decoration: none;
+}
+footer ul li span{
+	padding-left: .5em;
+}
+footer ul li:nth-child(2n){
+	border-right: 1px solid black;
+	border-left: 1px solid black;	
 }
 input{
 	border-radius:4px 4px 4px 4px;
@@ -40,6 +81,9 @@ input{
 	text-decoration:none;
 	text-shadow:0px 1px 0px #2f6627;	
 }
+.boton span{	
+	padding: .3em;
+}
 .boton:hover {
 	background-color:#FF274B;
 	text-decoration: none;
@@ -52,6 +96,7 @@ input{
 	text-align: center;
 }
 .busqueda-principal label{
+	border-radius: 5px;
 	border-right: 0;
 	border: 1px solid #ccc;
 	box-shadow: inset 0 1px 2px #eee;
@@ -147,6 +192,79 @@ input{
 	text-align: center;
 	width: 100%;
 }
+.inicio_pagina{
+	margin: 0 auto;
+	margin-bottom: 15%;
+	margin-top: .6em;
+	width: 90%;
+}
+.inicio_pagina article{
+	-moz-transition: background-color 0.2s ease-in-out;
+	-webkit-transition: background-color 0.2s ease-in-out;
+	background: #fff;
+	color: #5f5f5f;
+	cursor: pointer;
+	margin-top: .5em;
+	padding: .5em;
+	position: relative;
+	transition: background-color 0.2s ease-in-out;
+	width: 90%;
+
+}
+.inicio_pagina article p span{
+	margin-right: .6em;
+}
+.inicio_pagina article:hover{
+	-moz-box-shadow: 10px 10px 5px #999;
+	-webkit-box-shadow: 10px 10px 5px #999;
+	background: #5f5f5f;
+	box-shadow: 10px 10px 5px #999;
+	color: #fff;
+	z-index: 2;
+}
+.inicio_pagina article:hover > a{
+	color: #fff;
+}
+.inicio_pagina article .cabezote{
+	border-bottom: 1px solid;
+	font-size: 1.1em;
+	margin-bottom: .2em;
+	padding: .2em;	
+}
+.inicio_pagina article .cabezote span{
+	margin-right: .5em;
+}
+
+.inicio_pagina article .titulo{
+	font-size: 1.3em;
+}
+.inicio_pagina article .mas{
+	-moz-box-shadow: 10px 6px 5px #999;
+	-webkit-box-shadow: 10px 6px 5px #999;
+	background: #5f5f5f;
+	box-shadow: 10px 6px 5px #999;
+	float: left;
+	left: 1px;
+	margin-top: 1em;	
+	opacity: 0;
+	position: absolute;
+	width: 99.5%;	
+}
+.inicio_pagina article .mas p{
+	padding: .1em .9em;
+}
+.inicio_pagina article .mas p:nth-child(1){
+	background: #848484;
+}
+.inicio_pagina article img{
+	float: left;
+	height: 60px;
+	margin-right: .3em;
+	width: 60px;
+}
+.inicio_pagina article p{	
+	margin: .2em;
+}
 .logo-container{
 	font-size: 30px;
 	left: 4px;
@@ -173,6 +291,8 @@ input{
 .menu-lista{
 	background: #fff;
 	border-bottom:  1px solid #ccc;
+	border-right: 1px solid #ccc;
+	border-top: 1px solid #ccc;
 	box-shadow: inset 0 1px 2px #eee;	
 	position: absolute;
 	top: 81.5px;
@@ -242,8 +362,20 @@ input{
 		margin-left: .8em;
 	}
 	.editar_pefil article form button:nth-child(4){
-		margin-left: .8em;		
+		margin-left: .8em;
 	}
+	.inicio_pagina article{
+		display: inline-block;
+		vertical-align: top;
+		width: 45%;
+	}
+	.inicio_pagina article:nth-child(2n){
+		margin-left: .3em;
+	}
+	.inicio_pagina article .mas{		
+		left: 0px;
+		width: 100%;
+	}	
 	.logo-container{		
 		margin-left: .3em;
 		top: 19px;
@@ -252,7 +384,7 @@ input{
 	.menu-lista{
 		top: 47.5px;
 	}
-	.busqueda-principal label span {		
+	.busqueda-principal label span {
 		right: inherit;
 		top: -1px;
 		bottom: -1px;
@@ -264,7 +396,7 @@ input{
 	.user{
 		margin: 0;
 		margin-bottom: -10;
-		margin-top: -12;		
+		margin-top: -12;
 		width: 142px;
 	}
 }
@@ -272,4 +404,13 @@ input{
 	.busqueda-principal{
 		width: 70%;
 	}
+
+}
+@media screen and (min-width: 1010px){
+	.inicio_pagina article{
+		width: 31%;
+	}
+	.inicio_pagina article:nth-child(2n+1){
+		margin-left: .3em;
+	}	
 }

@@ -18,7 +18,9 @@ block content
                     img(src="#{data.avatar}", title="Editar Perfil", href="/edit_perfil")
         else
             div.iniciar_sesion
-                a.boton(href='/login') Login
+                a.boton(href='/login')
+                    span.icon-login
+                    | Login
 
         ul.menu-lista.display-none
             li
@@ -27,13 +29,13 @@ block content
             li.separador
             li
                 span.icon-video
-                a Videotutoriales
+                a(href="/videotutoriales") Videotutoriales
             li
                 span.icon-text
-                a Tutoriales
+                a(href="/tutoriales") Tutoriales
             li
                 span.icon-docs
-                a Manuales
+                a Guias
             if(data)
                 li.separador
                 li
@@ -61,6 +63,33 @@ block content
             | var socket = io.connect();
             | datos = {id_usuario: '#{data.id_usuario}',avatar: '#{data.avatar}', usuario: '#{data.usuario}', nombre_usuario: '#{data.nombre_usuario}' }
             | socket.emit('generar_canal', datos);
+    if(post)
+        section.inicio_pagina#inicio-pagina
+            each data_post in post
+                article(id="#{data_post.id}")
+                    a(href="#{data_post.link}")
+                        div.cabezote
+                            if(data_post.categoria=='Guia')
+                                span.icon-docs
+                            if(data_post.categoria=='Tutorial')
+                                span.icon-text
+                            if(data_post.categoria=='Videotutorial')
+                                span.icon-video
+                            |#{data_post.categoria}
+                        img(src="#{data_post.url_img}")
+                        p.titulo #{data_post.titulo}
+                        p #{data_post.contenido}
+                        div.mas.display-none
+                            p
+                                span.icon-pencil
+                                |Por #{data_post.nombre_usuario}
+                            p.comentarios
+                                span.icon-comment
+                                |#{data_post.cantidad_comentarios} Comentarios
+                            p
+                                span.icon-calendar
+                                |#{data_post.fecha_larga}
+                                
     if(error)
         section.error-index#error
             div #{error}

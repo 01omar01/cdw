@@ -10,6 +10,19 @@ var client = mysql.createConnection({
 
 client.query("USE cdw");
 
+exports.inicio = function(callback){
+	client.query(' call spinicio_pagina ',
+		function(err, results, fiels){
+			if(err){
+				callback({estado:'0',err: err});
+				return;
+			}else{
+				callback({estado:'1',results: results});
+				return;
+			}
+		});
+};
+
 exports.login = function(datos, callback){
 	client.query(' call spseg_mae_usuarios_login (?,?)',[datos.usuario, datos.pass],
 		function(err, results, fiels){			
@@ -72,4 +85,31 @@ exports.cambiar_contrasena = function(datos, callback){
 				return;
 			}			
 		});
+};
+//Tutoriales
+exports.tutoriales_listar_activos = function(callback){
+	client.query(' call spm_tutoriales_mov_tutoriales_listar_activos ',
+		function(err, results, fiels){
+			if(err){
+				callback({estado:'0',err: err});
+				return;
+			}else{
+				callback({estado:'1',results: results});
+				return;
+			}	
+	});
+};
+
+//Videotutoriales
+exports.videotutoriales_listar_activos = function(callback){
+	client.query(' call spm_videotutoriales_mov_videos_listar_activos ',
+		function(err, results, fiels){
+			if(err){
+				callback({estado:'0',err: err});
+				return;
+			}else{
+				callback({estado:'1',results: results});
+				return;
+			}	
+	});
 };

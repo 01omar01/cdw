@@ -12,7 +12,15 @@ function inicializar_objetos_index(){
 function eventos_index(){
 	$("#btn-cambiar-contrasena").on('click',btn_cambiar_contrasena_click);
 	$("#btn-vista-previa-avatar").on('click',btn_vista_previa_avatar_click);
-	$("#close-error").on('click',close_error_click);
+	$("#close-error").on('click',close_error_click);	
+	$( "#inicio-pagina article" ).mouseover(function() {
+		$(this).find('div[class*="mas"]').attr('style','display:block;').animate({opacity: 1,},999);
+	}).mouseout(function() {
+		$(this).find('div[class*="mas"]').attr('style','display:none;background: #fff;opacity:0;').animate();
+	});
+
+
+
 	$("#menu").on("click",menu_click);
 }
 function btn_cambiar_contrasena_click(){

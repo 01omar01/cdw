@@ -37,6 +37,9 @@ app.post('/registro',routes.registro)
 app.get('/logout', routes.logout);
 app.get('/edit_perfil', routes.edit_perfil);
 app.post('/edit_avatar', routes.edit_avatar);
+app.get('/tutoriales', routes.tutoriales);
+app.get('/videotutoriales', routes.videotutoriales);
+
 
 server = http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

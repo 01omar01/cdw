@@ -4,12 +4,23 @@ var error = 'Se produjo un error, estamos trabajando para solucionarlo.';
 var title = "DCW";
 
 exports.index = function(req, res){
-	if(req.session.datos_usuario){
-		res.render('index', { title: title, data: req.session.datos_usuario});
-	}else{
-		res.render('index', { title: title });
-	}
+	cdw.inicio(function(resultado){
+		if(resultado.estado=='1'){
+			if(req.session.datos_usuario){
+				res.render('index', { title: title, data: req.session.datos_usuario, post: resultado.results[0] });
+			}else{
+				res.render('index', { title: title, post: resultado.results[0] });
+			}
+		}else{			
+			if(req.session.datos_usuario){
+				res.render('index', { title: title, data: req.session.datos_usuario, error: error });
+			}else{
+				res.render('index', { title: title, error: error });
+			}
+		}	
+	});
 };
+
 exports.login = function(req,res){
 	validar_session(req, res);	
 	res.render('login', { title: title});
@@ -107,6 +118,48 @@ exports.registro = function(req, res){
 		}
 	});
 };
+
+
+exports.tutoriales = function(req, res){
+	cdw.tutoriales_listar_activos(function(resultado){
+		if(resultado.estado=='1'){
+			if(req.session.datos_usuario){
+				res.render('index', { title: title, data: req.session.datos_usuario, post: resultado.results[0] });
+			}else{
+				res.render('index', { title: title, post: resultado.results[0] });
+			}
+		}else{			
+			if(req.session.datos_usuario){
+				res.render('index', { title: title, data: req.session.datos_usuario, error: error });
+			}else{
+				res.render('index', { title: title, error: error });
+			}
+		}	
+	});
+};
+
+exports.videotutoriales = function(req, res){
+	cdw.videotutoriales_listar_activos(function(resultado){
+		if(resultado.estado=='1'){
+			if(req.session.datos_usuario){
+				res.render('index', { title: title, data: req.session.datos_usuario, post: resultado.results[0] });
+			}else{
+				res.render('index', { title: title, post: resultado.results[0] });
+			}
+		}else{			
+			if(req.session.datos_usuario){
+				res.render('index', { title: title, data: req.session.datos_usuario, error: error });
+			}else{
+				res.render('index', { title: title, error: error });
+			}
+		}	
+	});
+};
+
+
+
+
+
 
 exports.logout = function(req, res){
 	req.session.destroy();	
