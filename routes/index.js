@@ -162,11 +162,35 @@ exports.videotutorialesgetbyid = function(req, res){
 	};
 	cdw.videotutoriales_getbyid(datos, function(resultado){
 		if(resultado.estado=='1'){
-			if(req.session.datos_usuario){
-				res.render('index', { title: title, data: req.session.datos_usuario, videotutorial: resultado.results[0] });
-			}else{
-				res.render('index', { title: title, videotutorial: resultado.results[0] });
-			}
+			var videotutorial = resultado.results[0];
+			cdw.top5(function(resultado){
+				if(resultado.estado=='1'){
+					var top5 = resultado.results[0];
+
+					cdw.videotutoriales_comentarios(datos, function(resultado){
+						if(resultado.estado=='1'){
+							var videotutorial_comentarios = resultado.results[0];
+							if(req.session.datos_usuario){
+								res.render('index', { title: title, data: req.session.datos_usuario, videotutorial: videotutorial, top5: top5, videotutorial_comentarios: videotutorial_comentarios });
+							}else{
+								res.render('index', { title: title, videotutorial: videotutorial, top5: top5, videotutorial_comentarios: videotutorial_comentarios });
+							}							
+						}else{
+							if(req.session.datos_usuario){
+								res.render('index', { title: title, data: req.session.datos_usuario, error: error });
+							}else{
+								res.render('index', { title: title, error: error });
+							}							
+						}
+					});
+				}else{
+					if(req.session.datos_usuario){
+						res.render('index', { title: title, data: req.session.datos_usuario, error: error });
+					}else{
+						res.render('index', { title: title, error: error });
+					}						
+				}
+			});
 		}else{
 			if(req.session.datos_usuario){
 				res.render('index', { title: title, data: req.session.datos_usuario, error: error });

@@ -103,50 +103,26 @@ block content
                     img(src="#{videotutorial[0].avatar}")
                     p #{videotutorial[0].nombre_usuario}
                     p #{videotutorial[0].cantidad_comentarios} Comentarios            
-            article.post
-                h2 Post mas Comentados
-                div
-                    img(src="/images/logos/html5-logo.png")
-                    p titulo
-                    p ajdjsdnsajdnadj...
-                div
-                    img(src="/images/logos/html5-logo.png")
-                    p titulo
-                    p ajdjsdnsajdnadj...
-                div
-                    img(src="/images/logos/html5-logo.png")
-                    p titulo
-                    p ajdjsdnsajdnadj...
-                div
-                    img(src="/images/logos/html5-logo.png")
-                    p titulo
-                    p ajdjsdnsajdnadj...
-                div
-                    img(src="/images/logos/html5-logo.png")
-                    p titulo
-                    p ajdjsdnsajdnadj...
-            div.comentarios
-                div
-                    img(src="#{videotutorial[0].avatar}")
-                    p adfndjsfn f dfnkdsnknknknkn dknfkdn fkdn fdnk fdknfkd nfkdnfk ndkfn dknf dknfk dkfn dknf dknf kdnf kdn fkdn kfnd kndf dknf kdnf kdnf kdn fkdn fkndk dnfkdn jsadhjadjasdjashd asjhdjsahdjahsdjhad jahdjhajdhasdjashdjsa djashdjas d
-                    p Por Omar Salgado
-                    p
-                        span.icon-clock
-                        |El 14 de Algo
-                div
-                    img(src="#{videotutorial[0].avatar}")
-                    p adfndjsfn f dfnkdsnknknknkn dknfkdn fkdn fdnk fdknfkd nfkdnfk ndkfn dknf dknfk dkfn dknf dknf kdnf kdn fkdn kfnd kndf dknf kdnf kdnf kdn fkdn fkndk dnfkdn jsadhjadjasdjashd asjhdjsahdjahsdjhad jahdjhajdhasdjashdjsa djashdjas d
-                    p Por Omar Salgado
-                    p
-                        span.icon-clock
-                        |El 14 de Algo
-                div
-                    img(src="#{videotutorial[0].avatar}")
-                    p adfndjsfn f dfnkdsnknknknkn dknfkdn fkdn fdnk fdknfkd nfkdnfk ndkfn dknf dknfk dkfn dknf dknf kdnf kdn fkdn kfnd kndf dknf kdnf kdnf kdn fkdn fkndk dnfkdn jsadhjadjasdjashd asjhdjsahdjahsdjhad jahdjhajdhasdjashdjsa djashdjas d
-                    p Por Omar Salgado
-                    p
-                        span.icon-clock
-                        |El 14 de Algo
+            if(top5)
+                article.post                    
+                    h2 Post mas Comentados
+                    each data_top5 in top5
+                        a(href="#{data_top5.link}")
+                            div
+                                img(src="#{data_top5.url_img}")
+                                p #{data_top5.titulo}
+                                p #{data_top5.contenido}
+            
+            if(videotutorial_comentarios)
+                div.comentarios
+                    each data_videotutorial_comentarios in videotutorial_comentarios
+                        div
+                            img(src="#{data_videotutorial_comentarios.avatar}")
+                            p #{data_videotutorial_comentarios.contenido}
+                            p Por #{data_videotutorial_comentarios.nombre_usuario}
+                            p
+                                span.icon-clock
+                                |#{data_videotutorial_comentarios.fecha_larga}
 
                                 
     if(error)

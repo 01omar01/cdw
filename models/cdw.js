@@ -22,6 +22,18 @@ exports.inicio = function(callback){
 			}
 		});
 };
+exports.top5 = function(callback){
+	client.query(' call splistar_top_5 ',
+		function(err, results, fiels){
+			if(err){
+				callback({estado:'0',err: err});
+				return;
+			}else{
+				callback({estado:'1',results: results});
+				return;
+			}
+		});
+};
 
 exports.login = function(datos, callback){
 	client.query(' call spseg_mae_usuarios_login (?,?)',[datos.usuario, datos.pass],
@@ -124,4 +136,16 @@ exports.videotutoriales_getbyid = function(datos, callback){
 				return;
 			}
 		});
+};
+exports.videotutoriales_comentarios = function(datos, callback){
+	client.query(' call spm_vidiotutoriales_mov_comentarios_listar_id_videotutorial (?)',[datos.id_videotutorial],
+		function(err, results, fiels){
+			if(err){
+				callback({estado:'0',err: err});
+				return;
+			}else{
+				callback({estado:'1',results: results});
+				return;
+			}	
+	});
 };
