@@ -382,8 +382,9 @@ input{
 }
 .venta_comentarios article textarea{
 	height: 400px;	
-	width: 90%;
 	margin-bottom: .2em;
+	resize: none;
+	width: 90%;
 }
 .venta_comentarios div{
 	background: #f1f1f1;
