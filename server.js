@@ -4,6 +4,7 @@ var port = process.env.PORT || 3000;
 
 var express = require('express')
   , routes = require('./routes')  
+  , models = require('./models/models.js')
   , http = require('http')
   , path = require('path')
   , io   = require('socket.io')
@@ -57,7 +58,7 @@ socket_io.sockets.on('connection',function(socket){
 
 
   socket.on('validar_disponibilidad', function(usuario){    
-    routes.validar_disponibilidad_usuario(usuario,function(resultado){
+    models.validar_disponibilidad_usuario(usuario,function(resultado){
       if(resultado.resultado.estado=='1'){
         socket.emit('validar_disponibilidad',{ estado: '1' });
       }else{
@@ -66,15 +67,25 @@ socket_io.sockets.on('connection',function(socket){
     });
   });
 
-  socket.on('edit_pass',function(datos){    
+  socket.on('edit_pass',function(datos){
     datos.id_usuario = socket.datos_usuario.id_usuario;
-    routes.edit_pass(datos, function(resultado){
+    models.edit_pass(datos, function(resultado){
       if(resultado.resultado.estado=='1'){
         socket.emit('edit_pass', { estado: '1', msj: resultado.resultado.msj });
       }else{
         socket.emit('error', {error: resultado.resultado.msj});
       }
     });
+  });
+
+  socket.on('validar_add_comentario',function(datos){
+    if(socket.datos_usuario.id_usuario){
+      models.armar_html_comentario(datos, function(resultado){
+        socket.emit('ventana_agregar_comentario', { html: resultado.html });
+      });      
+    }else{
+      socket.emit('error', {error: 'Debe ingresar, para agregar el comentario' })
+    }
   });
 
 });

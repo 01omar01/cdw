@@ -102,7 +102,10 @@ block content
                 div.informacion-adicional
                     img(src="#{videotutorial[0].avatar}")
                     p #{videotutorial[0].nombre_usuario}
-                    p #{videotutorial[0].cantidad_comentarios} Comentarios            
+                    p #{videotutorial[0].cantidad_comentarios} Comentarios
+                    if(data)
+                        p
+                            a.agregar-comentario(onclick="validar_add_comentario('vdt','#{videotutorial[0].id_videotutorial}')") Agregar Comentario
             if(top5)
                 article.post                    
                     h2 Post mas Comentados
@@ -129,6 +132,9 @@ block content
         section.error-index#error
             div #{error}
                 span.icon-cross#close-error
-    section.error-index.display-none#error_socket
+    section.error-index.display-none#error_socket    
         div
             span.icon-cross#close-error
+    section.venta_comentarios.display-none#venta_comentarios
+        div
+            span.icon-cross#close-comentarios        

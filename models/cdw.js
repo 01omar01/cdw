@@ -105,9 +105,6 @@ exports.tutoriales_listar_activos = function(callback){
 			if(err){
 				callback({estado:'0',err: err});
 				return;
-			}else{
-				callback({estado:'1',results: results});
-				return;
 			}	
 	});
 };

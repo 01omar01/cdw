@@ -2,7 +2,7 @@
 body{
 	background: #f1f1f1;
 	font-size: 1em;
-	font: verdana,helvetica,arial,sans-serif;
+	font-family: verdana,helvetica,arial,sans-serif;
 	margin: 0;
 	padding: 0;
 }
@@ -54,8 +54,8 @@ footer ul li span{
 	padding-left: .5em;
 }
 footer ul li:nth-child(2n){
-	border-right: 1px solid black;
 	border-left: 1px solid black;	
+	border-right: 1px solid black;
 }
 input{
 	border-radius:4px 4px 4px 4px;
@@ -66,6 +66,17 @@ input{
 	margin:.2em;
 	padding: .5em;
 	width:99.5%;
+}
+.agregar-comentario{
+	color: #000;
+	text-align: right;
+	text-decoration: none;
+	font-size: 11px;
+}
+.agregar-comentario:hover{
+	color: red;
+	cursor: pointer;
+	text-decoration: underline;
 }
 .boton{
 	-moz-border-radius:28px;
@@ -181,7 +192,7 @@ input{
 	height: 182px;
 	width: 182px;
 }
-.error-index{
+.error-index, .venta_comentarios{
 	background-color:#000;
 	filter:alpha(opacity=75);
 	height:100%;
@@ -192,7 +203,7 @@ input{
 	width:100%;
 	z-index:4;
 }
-.error-index div{
+.error-index div, .venta_comentarios div{
 	background: red;
 	border-radius: 5px;
 	color: #fff;
@@ -203,12 +214,12 @@ input{
 	text-align: center;
 	width: 70%;
 }
-.error-index div span{
+.error-index div span, .venta_comentarios div span{
 	position: absolute;	
 	right: 3px;
 	top: 1.5px;
 }
-.error-index div span:hover{
+.error-index div span:hover, .venta_comentarios div span:hover{
 	color:#0ad;
 	cursor: pointer;
 }
@@ -366,6 +377,21 @@ input{
 	height: 50px;
 	width: 50px;
 }
+.venta_comentarios{
+	opacity: .9;
+}
+.venta_comentarios article textarea{
+	height: 400px;	
+	width: 90%;
+	margin-bottom: .2em;
+}
+.venta_comentarios div{
+	background: #f1f1f1;
+	color: #000;
+	margin-top: 150px;
+	opacity: 1!important;
+	width: 90%;
+}
 .videotutorial{
 	background: #fff;
 	margin-top: .8em;
@@ -465,7 +491,7 @@ input{
 		margin: 0;
 		margin-bottom: -10;
 		margin-top: -12;
-		width: 142px;
+		width: 150px;
 	}
 	.videotutorial{
 		margin: 0 auto;
@@ -522,6 +548,9 @@ input{
 @media screen and (min-width: 600px){
 	.busqueda-principal{
 		width: 70%;
+	}
+	.venta_comentarios div{
+		width: 60%;
 	}
 
 }

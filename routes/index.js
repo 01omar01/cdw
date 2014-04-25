@@ -78,30 +78,6 @@ exports.edit_avatar = function(req, res){
 	}
 };
 
-exports.edit_pass = function(datos, callback){
-	cdw.cambiar_contrasena(datos, function(resultado){		
-		if(resultado.estado=='1'){
-			callback({ estado: '1', resultado: resultado.results[0][0] });
-			return;
-		}else{
-			callback({ estado:'0', error: error});
-			return;
-		}
-	});
-};
-
-exports.validar_disponibilidad_usuario = function(usuario, callback){
-	var datos = { usuario: usuario };
-	cdw.validar_disponibilidad(datos,function(resultado){
-		if(resultado.estado=='1'){			
-			callback({ estado: '1', resultado: resultado.results[0][0] });
-			return;
-		}else{			
-			callback({ estado: '0', error: error});
-			return;
-		}
-	});	
-};
 exports.registro = function(req, res){
 	validar_session(req, res);
 	var datos = {

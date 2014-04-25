@@ -2,6 +2,7 @@ $(document).ready(inicio_index);
 var socket = io.connect();
 socket.on('edit_pass',success_edit_pass);
 socket.on('error',error);
+socket.on('ventana_agregar_comentario', success_ventana_agregar_comentario);
 function inicio_index(){
 	inicializar_objetos_index();
 	eventos_index();
@@ -12,7 +13,8 @@ function inicializar_objetos_index(){
 function eventos_index(){
 	$("#btn-cambiar-contrasena").on('click',btn_cambiar_contrasena_click);
 	$("#btn-vista-previa-avatar").on('click',btn_vista_previa_avatar_click);
-	$("#close-error").on('click',close_error_click);	
+	$("#close-comentarios").on('click',close_comentarios_click);
+	$("#close-error").on('click',close_error_click);
 	$( "#inicio-pagina article" ).mouseover(function() {
 		$(this).find('div[class*="mas"]').attr('style','display:block;').animate({opacity: 1,},999);
 	}).mouseout(function() {
@@ -53,6 +55,9 @@ function btn_vista_previa_avatar_click(){
 		msj_edit_perfil('Debe ingresar una Url valida');
 	}
 }
+function close_comentarios_click(){
+	$("#venta_comentarios").addClass('display-none');
+}
 function close_error_click(){
 	window.location.replace('/');
 }
@@ -72,10 +77,22 @@ function success_edit_pass(resultado){
 	}
 	msj_edit_perfil(resultado.msj);
 }
+function success_ventana_agregar_comentario(resultado){
+	venta_comentarios(resultado.html);
+}
+
+
+function validar_add_comentario(param, id){
+	switch(param){
+		case 'vdt':
+			socket.emit('validar_add_comentario', { param: param, id: id });
+			break;
+	}
+}
+
 function error(error){
 	$("#error_socket").removeClass('display-none').find('div').append(error.error);
 }
-
 function limpirform(form){
 	$("#"+form+"")[0].reset();
 }
@@ -85,6 +102,10 @@ function msj_edit_perfil(msj){
 	}else{
 		$("#msj_edit_perfil").html("").hide();
 	}	
+}
+function venta_comentarios(html){
+	$("#venta_comentarios").find('article').html('');
+	$("#venta_comentarios").removeClass('display-none').find('div').append(html);
 }
 function validationPass(value){
 	return /[a-zA-Z0-9]{5,}/.test(value);
