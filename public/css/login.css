@@ -31,9 +31,9 @@ canvas{
 	filter:alpha(opacity=75);
 	height:100%;
 	left:0px;
-	position:fixed;
-	top:0px;
-	width:100%;
+	position:fixed;	
+	bottom: 1px;
+	width:100%;	
 	
 }
 .display-none{

@@ -24,147 +24,195 @@ $(document).ready(function(){
     }
   });
   $("#txt-nombre-registro").on('blur',quitar_espacios_objetos);
-
-  window.requestAnimFrame = (function()
-  {
-     return  window.requestAnimationFrame       || 
-             window.webkitRequestAnimationFrame || 
-             window.mozRequestAnimationFrame    || 
-             window.oRequestAnimationFrame      || 
-             window.msRequestAnimationFrame     || 
-             function(callback)
-             {
-                 window.setTimeout(callback);
-             };
-  })();
-
-  // remove frame margin and scrollbars when maxing out size of canvas
-  document.body.style.margin = "0px";
-  document.body.style.overflow = "hidden";
-
-  // get dimensions of window and resize the canvas to fit
-  var width = window.innerWidth,
-      height = window.innerHeight,
-      canvas = document.getElementById("c"),
-      mousex = width/2,
-      mousey = height/2;
-  canvas.width = width;
-  canvas.height = height;
-
-  // get 2d graphics context and set global alpha
-  var G=canvas.getContext("2d");
-  G.globalAlpha=0.25;
-
-  // setup aliases
-  var Rnd = Math.random,
-      Sin = Math.sin,
-      Floor = Math.floor;
-
-  // constants and storage for objects that represent star positions
-  var warpZ = 12,
-      units = 500,
-      stars = [],
-      cycle = 0,
-      Z = 0.025 + (1/25 * 2);
-
-  // mouse events
-  function addCanvasEventListener(name, fn)
-  {
-     canvas.addEventListener(name, fn, false);
-  }
-  /*addCanvasEventListener("mousemove", function(e) {
-     mousex = e.clientX;
-     mousey = e.clientY;
-  });*/
-
-  function wheel (e) {
-     var delta = 0;
-     if (e.detail)
-     {
-        delta = -e.detail / 3;
-     }
-     else
-     {
-        delta = e.wheelDelta / 120;
-     }
-     var doff = (delta/25);
-     if (delta > 0 && Z+doff <= 0.5 || delta < 0 && Z+doff >= 0.01)
-     {
-        Z += (delta/25);
-        //console.log(delta +" " +Z);
-     }
-  }
-  //addCanvasEventListener("DOMMouseScroll", wheel);
-  //addCanvasEventListener("mousewheel", wheel);
-
-  // function to reset a star object
-  function resetstar(a)
-  {
-     a.x = (Rnd() * width - (width * 0.5)) * warpZ;
-     a.y = (Rnd() * height - (height * 0.5)) * warpZ;
-     a.z = warpZ;
-     a.px = 0;
-     a.py = 0;
-  }
-
-  // initial star setup
-  for (var i=0, n; i<units; i++)
-  {
-     n = {};
-     resetstar(n);
-     stars.push(n);
-  }
-
-  // star rendering anim function
-  var rf = function()
-  {
-     // clear background
-     G.fillStyle = "#000";
-     G.fillRect(0, 0, width, height);
-     
-     // mouse position to head towards
-     var cx = (mousex - width / 2) + (width / 2),
-         cy = (mousey - height / 2) + (height / 2);
-     
-     // update all stars
-     var sat = Floor(Z * 500);       // Z range 0.01 -> 0.5
-     if (sat > 100) sat = 100;
-     for (var i=0; i<units; i++)
-     {
-        var n = stars[i],            // the star
-            xx = n.x / n.z,          // star position
-            yy = n.y / n.z,
-            e = (1.0 / n.z + 1) * 2;   // size i.e. z
-        
-        if (n.px !== 0)
-        {
-           // hsl colour from a sine wave
-           G.strokeStyle = "hsl(" + ((cycle * i) % 360) + "," + sat + "%,80%)";
-           G.lineWidth = e;
-           G.beginPath();
-           G.moveTo(xx + cx, yy + cy);
-           G.lineTo(n.px + cx, n.py + cy);
-           G.stroke();
-        }
-        
-        // update star position values with new settings
-        n.px = xx;
-        n.py = yy;
-        n.z -= Z;
-        
-        // reset when star is out of the view field
-        if (n.z < Z || n.px > width || n.py > height)
-        {
-           // reset star
-           resetstar(n);
-        }
-     }
-     
-     // colour cycle sinewave rotation
-     cycle += 0.01;
-     
-     requestAnimFrame(rf);
+  Snake = function(canvas) {
+    this.setCanvas(canvas);    
+    this.x = this.canvasWidth/2;
+    this.y = this.canvasHeight;
+    this.radius = 10;
+    this.speed = this.canvasWidth/500;
+    this.angle = Math.PI/2;
+    this.angleDiversion = 
+    this.fillStyle = "#000";
+    this.shadowColor = "#000";
+    this.shadowBlur = 2;
+    this.generation = 0;
+    this.lifespan = 0;
+    this.totalDistance = 0;
+    this.distance = 0;
   };
-  requestAnimFrame(rf);
+
+  Snake.prototype = {
+    setCanvas: function(canvas) {
+      this.canvas = canvas;
+      this.context = canvas.getContext("2d");
+      this.$canvas = $(canvas);
+      this.canvasWidth = $canvas.width();
+      this.canvasHeight = $canvas.height();
+    },
+    
+    next: function() {
+      this.draw();
+      this.iterate();
+      this.randomize();
+      this.split();
+      this.lifespan++;
+      this.die();
+    },
+    
+    draw: function() {
+      var context = this.context;
+      context.save();
+      context.fillStyle = this.fillStyle;
+      context.shadowColor = this.shadowColor;
+      context.shadowBlur = this.shadowBlur;
+      context.beginPath();
+      context.moveTo(this.x, this.y);
+      context.arc(this.x, this.y, this.radius, 0, 2*Math.PI, true);
+      context.closePath();
+      context.fill();
+      context.restore();
+    },
+    
+    iterate: function() {
+      var lastX = this.x;
+      var lastY = this.y;
+      this.x += this.speed * Math.cos(this.angle);
+      this.y += this.speed * -Math.sin(this.angle);
+      this.radius *= (0.99 - this.generation/250); // minus 0.004 per generation
+      var deltaDistance = Math.sqrt(Math.abs(lastX-this.x) + Math.abs(lastY-this.y));
+      this.distance += deltaDistance;
+      this.totalDistance += deltaDistance;
+      if (this.speed > this.radius*2)
+        this.speed = this.radius*2;
+    },
+    
+    randomize: function() {
+      this.angle += Math.random()/5 - 1/5/2;
+    },
+    
+    reset: function(context) {
+      var $canvas = $(context.canvas);
+      var margin = 30+this.radius;
+      var width = $canvas.width();
+      var height = $canvas.height();
+      
+      if (this.x < -margin || this.x > width+margin || this.y < -margin || this.y > height+margin) {
+        this.y = height;
+        var grey = Math.floor(Math.random()*255).toString(16);
+        this.fillStyle = "#" + grey + grey + grey;
+        this.shadowColor = this.fillStyle;
+      }
+    },
+    
+    split: function() {
+      var splitChance = 0;
+      if (this.generation == 0)
+        splitChance = (this.distance-this.canvasHeight/5)/100;
+      // Branch
+      else if (this.generation < 3)
+        splitChance = (this.distance-this.canvasHeight/10)/100;
+      
+      // Split if we are allowed
+      if (Math.random() < splitChance) {
+        var n = 2+Math.round(Math.random()*2);
+        for (var i=0 ; i<n ; i++) {
+          var snake = new Snake(this.canvas);
+          snake.x = this.x;
+          snake.y = this.y;
+          snake.angle = this.angle;
+          snake.speed = this.speed;
+          snake.radius = this.radius * 0.9;
+          snake.generation = this.generation + 1;
+          snake.fillStyle = this.fillStyle;
+          snake.shadowColor = this.shadowColor;
+          snake.shadowBlur = this.shadowBlur;
+          snake.totalDistance = this.totalDistance;
+          this.collection.add(snake);
+        }
+        this.collection.remove(this);
+      }
+    },
+    
+    die: function() {
+      if (this.radius < 0.2) {
+        this.collection.remove(this);
+  //      console.log(this.distance);
+      }
+    }
+  }
+
+  SnakeCollection = function() {
+    this.canvas = canvas;
+    
+    this.snakes = [];
+  }
+
+  SnakeCollection.prototype = {
+    next: function() {
+      n = this.snakes.length;
+      for (var s in this.snakes) {
+        var snake = this.snakes[s];
+        if (this.snakes[s])
+          this.snakes[s].next();
+      }
+    },
+    
+    add: function(snake) {
+      this.snakes.push(snake);
+      snake.collection = this;
+    },
+    
+    remove: function(snake) {
+      for (var s in this.snakes)
+        if (this.snakes[s] === snake)
+          this.snakes.splice(s, 1);
+    }
+  }
+
+  function randHex() {
+    var num = Math.round(Math.random() * 255).toString(16);
+    if (num.length == 1)
+      num = "0"+num;
+    return num;
+  }
+
+  $(function() {
+    // Convenience
+    $canvas = $("canvas#canvastree");
+    canvas = $canvas[0];
+    context = canvas.getContext("2d");
+    
+    // Dimensions
+    var width = $canvas.width();
+    var height = $canvas.height();
+    
+    // Set actual canvas size to match css
+    $canvas.attr("width", width);
+    $canvas.attr("height", height);
+    
+    // Information
+    $("#info").html("Size: "+canvas.width+"x"+canvas.height);
+    
+    // Frame rate
+    var frame = 0;
+    
+    // Snakes
+    var n = 2+Math.random()*3;
+    var initialRadius = width/50;
+    snakes = new SnakeCollection();
+    for (var i=0 ; i<n ; i++) {
+      var snake = new Snake(canvas);
+      snake.x = width/2 - initialRadius + i*initialRadius*2/n;
+      snake.radius = initialRadius;
+      snakes.add(snake);
+    }
+    
+    // Frame drawer
+    var interval = setInterval(function() {
+      snakes.next();    
+      frame++;
+    }, 0);
+    
+  });  
 });
 function quitar_espacios_objetos(){var string = $.trim($(this).val().replace(/[ ][ ]+/g,' '));$(this).val(string);}
